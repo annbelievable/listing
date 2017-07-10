@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<tab id="personalInfo">
+		<fieldset id="personalInfo" sortorder="10" >
+			<field sortorder="10" name="first_name"       control="textInput" required="true" />
+			<field sortorder="20" name="last_name"        control="textInput" required="true" />
+			<field sortorder="30" name="phone_number"     control="textInput" required="true" />
+			<field sortorder="40" name="address1"         control="textInput" required="true" />
+			<field sortorder="50" name="address2"         control="textInput" required="false" />
+			<field sortorder="60" name="postcode"         control="textInput" required="true" />
+			<field sortorder="70" name="city"             control="textInput" required="true" />
+			<field sortorder="80" name="state"            control="textInput" required="true" />
+		</fieldset>
+	</tab>
+</form>

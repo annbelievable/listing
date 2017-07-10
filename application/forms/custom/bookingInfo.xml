@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<tab id="bookingInfo">
+		<fieldset id="bookingInfo">
+			<field name="owner_id"    control="hidden" />
+			<field name="item_id"     control="hidden" />
+			<field name="start_date"  control="datePicker" required="true" />
+			<field name="end_date"    control="datePicker" required="true" />
+			<field name="sidenote"    control="textArea"   required="false" />
+		</fieldset>
+	</tab>
+</form>

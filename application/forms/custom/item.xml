@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<tab id="item">
+		<fieldset id="item">
+			<field name="name"         control="textInput"    required="true" />
+			<field name="description"  control="textInput"    required="true" />
+			<field name="sidenote"     control="textInput"    required="false" />
+			<field name="category"     control="appSelect" required="true"
+				objectName="category"  multiple="true" deselectable="true" />
+		</fieldset>
+	</tab>
+</form>
+
+<!--
+objectpicker fields
+resultTemplate=""
+selectedTemplate=""
+remoteUrl=""
+prefetchUrl=""
+removeObjectPickerClass="true"
+ -->

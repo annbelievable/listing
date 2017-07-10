@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<tab id="accountInfo">
+		<fieldset id="accountInfo" sortorder="10">
+			<field sortorder="10" name="email_address"    control="emailInput"   required="true" />
+			<field sortorder="20" name="password"		  control="password"     required="true" minLength="8" maxLength="32" passwordPolicyContext="website" />
+			<field sortorder="30" name="confirm_password" control="password"     required="true" minLength="8" maxLength="32" passwordPolicyContext="website" />
+		</fieldset>
+	</tab>
+</form>
