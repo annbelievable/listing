@@ -12,7 +12,7 @@
 	<h3>#item.name#</h3>
 	<p>Description: #item.description#</p>
 	<p>Side Note: #item.sidenote#</p>
-	<p>Owner: <a href="#event.buildLink( page='user_profile', id="#item.website_user#" )#">#item.website_user#</a></p>
+	<p><a href="#event.buildLink( page='user_profile', id="#item.website_user#" )#">Owner Profile</a></p>
 
 	<br>
 	<h3>Book Item</h3>
