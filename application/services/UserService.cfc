@@ -6,25 +6,49 @@ component output=false{
   // CONSTRUCTOR
 	/**
    * @presideObjectService.inject      presideObjectService
+   * @WebsiteLoginService.inject       WebsiteLoginService
    */
 
+   //WebsiteLogin service can be removed as it is not used here
+
   public any function init(
-        required any presideObjectService
+      required any presideObjectService
+    , required any WebsiteLoginService
   ) {
-      _setPresideObjectService( arguments.presideObjectService );
-      return this;
+    _setPresideObjectService( arguments.presideObjectService );
+    _setWebsiteLoginService( arguments.WebsiteLoginService );
+    return this;
   }
 
 
 
   //users
 	public string function getLoggedInUserId() {
-		return $getWebsiteLoggedInUserId();
+		return $getWebsiteLoggedInUserId()?:"";
 	}
 
-	public function getLoggedInUserDetails() {
-		return $getWebsiteLoggedInUserDetails();
+	public struct function getLoggedInUserDetails() {
+		return $getWebsiteLoggedInUserDetails()?:{};
 	}
+
+  public struct function updatePersonalInfo( required string id, struct data={} ) {
+    var id     = arguments.id;
+    var data   = arguments.data;
+    var result = { statusCode="SUCCESS" };
+    try {
+      $getPresideObjectService().updateData(
+          objectName = "website_user"
+        , id         = id
+        , data       = data
+      );
+    }
+    catch( e ) {
+        $raiseError(e);
+        result.statusCode        = "FAILED";
+        result.statusCodeMessage = "Failed to save the data. Please contact our web administrator";
+    }
+    return result;
+  }
 
   query function getUserByIdOrEmail( string id="", string email_address="", array selectFields=[] ) {
     if( len(arguments.id) ) {
@@ -63,6 +87,26 @@ component output=false{
     return result;
   }
 
+  public struct function updateItemInfo( required string id, struct data={} ) {
+    var id     = arguments.id;
+    var data   = arguments.data;
+    var result = { statusCode="SUCCESS" };
+    try {
+      $getPresideObjectService().updateData(
+          objectName = "item"
+        , id         = id
+        , data       = data
+        , updateManyToManyRecords=true
+      );
+    }
+    catch( e ) {
+        $raiseError(e);
+        result.statusCode        = "FAILED";
+        result.statusCodeMessage = "Failed to save the data. Please contact our web administrator";
+    }
+    return result;
+  }
+
   query function getAllItems() {
     return $getPresideObject( "item" ).selectData();
   }
@@ -71,10 +115,21 @@ component output=false{
     return $getPresideObject( "category" ).selectData();
   }
 
-  query function getItem( require string id, array selectFields=[] ) {
+  query function getItem( required string id, array selectFields=[] ) {
     var filter             = "id = :id";
     var filterParams["id"] = arguments.id;
     var selectFields       = arguments.selectFields;
+    return $getPresideObject( "item" ).selectData(
+        filter       = filter
+      , filterParams = filterParams
+      , selectFields = selectFields
+    );
+  }
+
+  query function getUserItems( required string user_id, array selectFields=[] ) {
+    var filter                       = "website_user = :website_user";
+    var filterParams["website_user"] = arguments.user_id;
+    var selectFields                 = arguments.selectFields;
     return $getPresideObject( "item" ).selectData(
         filter       = filter
       , filterParams = filterParams
@@ -110,8 +165,38 @@ component output=false{
         result.statusCode        = "FAILED";
         result.statusCodeMessage = "Failed to save the data. Please contact our web administrator";
     }
+    if( result.statusCode=="SUCCESS" ) {
+      result.id = booking;
+    }
     return result;
   }
+
+  query function getUserBookings( required string user_id, array selectFields=[] ) {
+    var filter                      = "borrower_id = :borrower_id";
+    var filterParams["borrower_id"] = arguments.user_id;
+    var selectFields                = arguments.selectFields;
+    return $getPresideObject( "booking_detail" ).selectData(
+        filter       = filter
+      , filterParams = filterParams
+      , selectFields = selectFields
+    );
+  }
+
+
+
+  //for widget featured items
+  public function getFeaturedItems( required string id, array selectFields ) {
+    var filter             = "id in (:id)";
+    var filterParams["id"] = listToArray(arguments.id);
+    var selectFields       = arguments.selectFields ?: [];
+    return $getPresideObject( "item" ).selectData(
+        filter       = filter
+      , filterParams = filterParams
+      , selectFields = selectFields
+    );
+  }
+
+
 
 
 
@@ -123,6 +208,16 @@ component output=false{
   private function _getPresideObjectService() {
     return _presideObjectService;
   }
+
+  private function _setWebsiteLoginService( required any WebsiteLoginService ) {
+    _WebsiteLoginService = arguments.WebsiteLoginService;
+  }
+
+  private function _getWebsiteLoginService() {
+    return _WebsiteLoginService;
+  }
+
+
 }
 
 //why do you need inject presideObjectService to use the preside service in this case?

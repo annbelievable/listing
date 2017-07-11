@@ -1,4 +1,8 @@
-
+/**
+ *
+ * @isSystemPageType     true
+ *
+ **/
 component  {
 
 }
