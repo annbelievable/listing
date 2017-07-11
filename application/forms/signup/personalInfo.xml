@@ -2,6 +2,7 @@
 <form>
 	<tab id="personalInfo">
 		<fieldset id="personalInfo" sortorder="10" >
+			<field sortorder="10" name="display_name"     control="textInput" required="true" />
 			<field sortorder="10" name="first_name"       control="textInput" required="true" />
 			<field sortorder="20" name="last_name"        control="textInput" required="true" />
 			<field sortorder="30" name="phone_number"     control="textInput" required="true" />

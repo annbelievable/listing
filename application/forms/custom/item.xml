@@ -5,8 +5,8 @@
 			<field name="name"         control="textInput"    required="true" />
 			<field name="description"  control="textInput"    required="true" />
 			<field name="sidenote"     control="textInput"    required="false" />
-			<field name="category"     control="appSelect" required="true"
-				objectName="category"  multiple="true" deselectable="true" />
+			<field name="category"     control="appSelect"    required="true"
+				objectName="category"  multiple="true"        deselectable="true" />
 		</fieldset>
 	</tab>
 </form>
