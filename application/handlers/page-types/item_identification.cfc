@@ -4,6 +4,10 @@ component {
 	property name="FormsService"		 inject="FormsService";
 
 	private function index( event, rc, prc, args={} ) {
+		var id = UserService.getLoggedInUserId()?:"";
+		if( id=="" ) {
+			setNextEvent( url=event.buildLink( page="login" ) );
+		}
 		return renderView(
 			  view          = 'page-types/item_identification/index'
 			, presideObject = 'item_identification'

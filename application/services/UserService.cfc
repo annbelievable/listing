@@ -24,11 +24,11 @@ component output=false{
 
   //users
 	public string function getLoggedInUserId() {
-		return $getWebsiteLoggedInUserId();
+		return $getWebsiteLoggedInUserId()?:"";
 	}
 
 	public struct function getLoggedInUserDetails() {
-		return $getWebsiteLoggedInUserDetails();
+		return $getWebsiteLoggedInUserDetails()?:{};
 	}
 
   public struct function updatePersonalInfo( required string id, struct data={} ) {
@@ -165,6 +165,9 @@ component output=false{
         result.statusCode        = "FAILED";
         result.statusCodeMessage = "Failed to save the data. Please contact our web administrator";
     }
+    if( result.statusCode=="SUCCESS" ) {
+      result.id = booking;
+    }
     return result;
   }
 
@@ -178,6 +181,22 @@ component output=false{
       , selectFields = selectFields
     );
   }
+
+
+
+  //for widget featured items
+  public function getFeaturedItems( required string id, array selectFields ) {
+    var filter             = "id in (:id)";
+    var filterParams["id"] = listToArray(arguments.id);
+    var selectFields       = arguments.selectFields ?: [];
+    return $getPresideObject( "item" ).selectData(
+        filter       = filter
+      , filterParams = filterParams
+      , selectFields = selectFields
+    );
+  }
+
+
 
 
 

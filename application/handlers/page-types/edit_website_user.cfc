@@ -4,7 +4,11 @@ component {
 	property name="WebsiteLoginService"  inject="WebsiteLoginService";
 
 	private function index( event, rc, prc, args={} ) {
-		rc.savedData		= rc.savedData ?: UserService.getLoggedInUserDetails();
+		var user_details    = UserService.getLoggedInUserDetails() ?: {};
+		rc.savedData		= rc.savedData ?: user_details;
+		if( StructIsEmpty(rc.savedData) ) {
+			setNextEvent( url=event.buildLink( page="login" ) );
+		}
 		return renderView(
 			  view          = 'page-types/edit_website_user/index'
 			, presideObject = 'edit_website_user'

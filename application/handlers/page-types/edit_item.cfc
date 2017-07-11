@@ -4,8 +4,15 @@ component {
 
 	private function index( event, rc, prc, args={} ) {
 		var id        = rc.id ?: "";
+		if( id=="" ) {
+			setNextEvent( url=event.buildLink( page="item_listings" ) );
+		}
+		var user_id   = UserService.getLoggedInUserId() ?: "";
 		var itemQuery = UserService.getItem( id=id );
 		var itemData  = itemQuery.getRow(1);
+		if( user_id!=itemData.website_user ) {
+			setNextEvent( url=event.buildLink( page="login" ) );
+		}
 		rc.savedData  = rc.savedData ?: itemData;
 		return renderView(
 			  view          = 'page-types/edit_item/index'
